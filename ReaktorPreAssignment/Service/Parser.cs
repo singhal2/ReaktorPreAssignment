@@ -10,7 +10,7 @@ namespace ReaktorPreAssignment.Service
 {
     public class Parser
     {
-        public Dictionary<string, PackageItem> GetData()
+        public SortedDictionary<string, PackageItem> GetData()
         {
             //Get directory and read file
             try
@@ -23,13 +23,13 @@ namespace ReaktorPreAssignment.Service
             }
             catch (Exception)
             {
-                return new Dictionary<string, PackageItem>();
+                return new SortedDictionary<string, PackageItem>();
             }
         }
 
-        private Dictionary<string, PackageItem> ParseData(string[] lines)
+        private SortedDictionary<string, PackageItem> ParseData(string[] lines)
         {
-            Dictionary<string, PackageItem> packages = new Dictionary<string, PackageItem>();
+            SortedDictionary<string, PackageItem> packages = new SortedDictionary<string, PackageItem>();
             PackageItem package = new PackageItem() { DependsOn = new List<List<Dependency>>(), RequiredBy = new List<string>() };
 
             for (int currentLineInex = 0; currentLineInex < lines.Length; currentLineInex++)
@@ -71,7 +71,7 @@ namespace ReaktorPreAssignment.Service
                             //Clean dependencies (alternates and versions)
                             foreach (var dependency in dependencyList)
                             {
-                                Dictionary<int, string> Dependencies = new Dictionary<int, string>();
+                                SortedDictionary<int, string> Dependencies = new SortedDictionary<int, string>();
                                 if (dependency.Contains("|"))
                                 {
                                     //Alternate dependencies
@@ -100,11 +100,10 @@ namespace ReaktorPreAssignment.Service
                 }
             }
             ParseDependencies(packages);
-
             return packages;
         }
 
-        private void ParseDependencies(Dictionary<string, PackageItem> packages)
+        private void ParseDependencies(SortedDictionary<string, PackageItem> packages)
         {
             //Check each package
             foreach (var package in packages)
