@@ -1,4 +1,5 @@
-﻿using ReaktorPreAssignment.Service;
+﻿using ReaktorPreAssignment.Models;
+using ReaktorPreAssignment.Service;
 using System;
 using System.Collections.Generic;
 using System.IO;
@@ -13,28 +14,22 @@ namespace ReaktorPreAssignment.Controllers
     {
         public ActionResult Index()
         {
-            FileService service = new FileService();
-            service.ReadFile();
-            return View();
+            //Load packages if repo is null
+            if (Repository.Packages == null)
+            {
+                Parser service = new Parser();
+                var packages = service.GetData();
+                Repository.Packages = packages;
+            }
+
+            return View(Repository.Packages);
         }
 
-        private void ReadFile()
+        public ActionResult ShowInfo(string packageKey)
         {
-            throw new NotImplementedException();
-        }
-
-        public ActionResult About()
-        {
-            ViewBag.Message = "Your application description page.";
-
-            return View();
-        }
-
-        public ActionResult Contact()
-        {
-            ViewBag.Message = "Your contact page.";
-
-            return View();
+            //Find selected package
+            PackageItem selectedPackage = Repository.Packages[packageKey];
+            return View("Info", selectedPackage);
         }
     }
 }

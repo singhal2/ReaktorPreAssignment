@@ -1,15 +1,18 @@
-﻿@{
+﻿@model  Dictionary<string, ReaktorPreAssignment.Models.PackageItem>
+
+@{
     ViewBag.Title = "Home Page";
 }
 
 <div class="page-header">
-    <h1>INSTALLED PACKAGES</h1>
+    <h1>INSTALLED PACKAGES (@Model.Count)</h1>
 </div>
 
 <div class="row">
-    <div class="col-md-12">
-        <a href="mailto:Support@example.com">Support@example.com</a><br />
-        <a href="mailto:Support@example.com">Support@example.com</a><br />
-        <a href="mailto:Support@example.com">Support@example.com</a><br />
-    </div>
+    @for (int i = 0; i < Model.Count; i++)
+    {
+        <div class="col-md-3">
+            @Html.ActionLink(Model.ElementAt(i).Value.Name, "ShowInfo", "Home", new { packageKey = Model.ElementAt(i).Value.Name }, null) <br />
+        </div>
+    }
 </div>

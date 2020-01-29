@@ -1,0 +1,76 @@
+﻿@model  ReaktorPreAssignment.Models.PackageItem
+<div class="row">
+    <div class="col-md-12">
+        <span>
+            <h1>
+                @Html.ActionLink("<<", "Index", "Home", null, null)
+                &nbsp;
+                @Model.Name
+            </h1>
+        </span>
+        <hr />
+        <h4><b>Description</b></h4>
+        <div>@(new HtmlString(@Model.Decription))</div>
+        <hr />
+        <h4><b>Dependencies</b></h4>
+        <!-- If no dependencies, display message-->
+        @if (Model.DependsOn.Count == 0)
+        {
+            <div class="col-md-12">
+                <p>None</p>
+            </div>
+        }
+        @for (int i = 0; i < Model.DependsOn.Count; i++)
+        {
+            //Handle alternate dependencies
+            if (Model.DependsOn[i].Count > 1)
+            {
+                <div class="col-md-12">
+                    @foreach (var alternateDependency in Model.DependsOn[i])
+                    {
+                        if (alternateDependency.Exists) //If exists, display link
+                        {
+                            <span>@Html.ActionLink(alternateDependency.Name, "ShowInfo", "Home", new { packageKey = alternateDependency.Name }, null) &nbsp; </span>
+                        }
+                        else
+                        {
+                            <span>@Html.DisplayFor(x => x.DependsOn[i].Where(y => y == alternateDependency).FirstOrDefault().Name) &nbsp; </span>
+                        }
+                    }
+                </div>
+            }
+            else //Handle normal dependencies
+            {
+                <div class="col-md-12">
+                    @foreach (var dependency in Model.DependsOn[i])
+                    {
+                        if (dependency.Exists) //If exists, display link
+                        {
+                            @Html.ActionLink(dependency.Name, "ShowInfo", "Home", new { packageKey = dependency.Name }, null) <br />
+                        }
+                        else
+                        {
+                            <span>@Html.DisplayFor(x => x.DependsOn[i].Where(y => y == dependency).FirstOrDefault().Name) &nbsp; </span>
+                        }
+                    }
+                </div>
+            }
+        }
+    </div>
+    <div class="col-md-12">
+        <hr />
+        <h4><b>Required by</b></h4>
+        <div class="col-md-12">
+            <!-- If no dependencies, display message-->
+            @if (Model.RequiredBy.Count == 0)
+            {
+                <p>None</p>
+            }
+            <!-- Handle Requiredby libraries-->
+            @foreach (var requiredby in Model.RequiredBy)
+            {
+                @Html.ActionLink(requiredby, "ShowInfo", "Home", new { packageKey = requiredby }, null) <br />
+            }
+        </div>
+    </div>
+</div>

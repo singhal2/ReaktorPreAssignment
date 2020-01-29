@@ -9,11 +9,7 @@ namespace ReaktorPreAssignment.Models
     {
         public string Name { get; set; }
         public string Decription { get; set; }
-        public List<string> DependsOn { get; set; }
-        public List<string> RequiredBy{ get; set; }
-    }
-    public class Packages
-    {
-        public List<PackageItem> List { get; set; }
+        public List<List<Dependency>> DependsOn { get; set; }
+        public List<string> RequiredBy { get; set; }
     }
 }
