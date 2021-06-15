@@ -1,5 +1,4 @@
 # ReaktorPreAssignment
-My implementation of the Reaktor assessment. Try now: https://reaktorpreassignment20200130123350.azurewebsites.net/
 
 On Debian and Ubuntu systems, there is a file called /var/lib/dpkg/status that holds information about software packages that the system knows about. This small .NET app service exposes some key information about packages in the file via an HTML interface.
 
